@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DOCX文档生成器 v2.0 (优化版)
+DOCX文档生成器 v2.1 (优化版 + 内置依赖)
 用于创建包含页脚的Microsoft Word文档
 
 优化内容：
@@ -12,11 +12,72 @@ DOCX文档生成器 v2.0 (优化版)
 5. 改进表格功能
 6. 更好的类型提示
 7. 支持链式调用
+8. 内置依赖管理，无需每次安装
 """
 
 import os
-import re
+import sys
+import subprocess
 from typing import Optional, List, Dict, Union, Tuple, Any
+
+# ==================== 依赖管理 ====================
+
+def _setup_local_dependencies():
+    """
+    设置本地依赖库
+    将 python-docx 安装到技能目录的 lib 文件夹中
+    只需安装一次，之后直接使用本地版本
+    """
+    # 获取技能目录（scripts目录的父目录）
+    skill_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    lib_dir = os.path.join(skill_dir, 'lib')
+
+    # 将本地 lib 目录添加到 Python 路径
+    if lib_dir not in sys.path:
+        sys.path.insert(0, lib_dir)
+
+    # 检查是否需要安装依赖
+    try:
+        import docx
+        # 如果已安装，直接返回
+        return
+    except ImportError:
+        pass
+
+    # 依赖未安装，进行安装
+    print(f"[DOCX生成器] 首次运行，正在安装依赖到本地目录...")
+    print(f"[DOCX生成器] 安装位置: {lib_dir}")
+
+    try:
+        # 确保目录存在
+        os.makedirs(lib_dir, exist_ok=True)
+
+        # 安装 python-docx 到本地目录
+        subprocess.check_call([
+            sys.executable, '-m', 'pip', 'install',
+            '--target', lib_dir,
+            '--upgrade',
+            'python-docx>=1.1.0'
+        ])
+
+        print(f"[DOCX生成器] ✓ 依赖安装成功！")
+
+    except subprocess.CalledProcessError as e:
+        print(f"[DOCX生成器] ✗ 依赖安装失败: {e}")
+        print(f"[DOCX生成器] 请手动运行: pip install --target \"{lib_dir}\" python-docx")
+        raise
+
+    # 再次尝试导入
+    import docx
+    if lib_dir not in sys.path:
+        sys.path.insert(0, lib_dir)
+
+# 执行依赖设置
+_setup_local_dependencies()
+
+# ==================== 正常导入 ====================
+
+import re
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches, Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT, WD_LINE_SPACING
