@@ -194,7 +194,7 @@ class DocxGenerator:
 
     def add_title(self, title: str, level: int = 1):
         """
-        添加标题（默认居中对齐，黑色）
+        添加标题（Level 1 居中+小二号，其他级别左对齐，黑色）
 
         Args:
             title: 标题文本
@@ -209,11 +209,17 @@ class DocxGenerator:
             raise ValidationError("标题级别必须在1-9之间")
 
         heading = self.doc.add_heading(title, level=level)
-        # 设置标题居中对齐
-        heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        # Level 1 标题居中对齐，其他级别左对齐
+        if level == 1:
+            heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        else:
+            heading.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
         # 设置标题颜色为黑色（覆盖 Word 默认的蓝色样式）
         for run in heading.runs:
             run.font.color.rgb = RGBColor(0, 0, 0)
+            # Level 1 标题设置为小二字号（18磅）
+            if level == 1:
+                run.font.size = Pt(18)
         return self
 
     def add_paragraph(

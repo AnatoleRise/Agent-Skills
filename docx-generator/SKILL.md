@@ -99,7 +99,7 @@ gen.add_paragraph(
 
 - ✅ **自动页脚**：每页自动添加 "AI生成，仅供参考" 页脚
 - ✅ **丰富内容**：支持标题、段落、列表和表格
-- ✅ **标题居中**：所有级别标题自动居中对齐
+- ✅ **标题样式**：Level 1 标题居中，其他级别左对齐
 - ✅ **高级功能**：代码块、引用、图片、超链接
 - ✅ **页眉支持**：为文档添加自定义页眉
 - ✅ **链式调用**：流畅的 API，代码更优雅
@@ -115,7 +115,7 @@ gen.add_paragraph(
 |------|------|
 | `set_header_text(text)` | 设置文档页眉 |
 | `set_footer_text(text)` | 设置文档页脚 |
-| `add_title(title, level=1)` | 添加标题（级别 1-9，自动居中对齐） |
+| `add_title(title, level=1)` | 添加标题（级别 1-9，Level 1 居中，其他左对齐） |
 | `add_paragraph(text, **kwargs)` | 添加段落（可选样式） |
 | `add_list(items, ordered=False)` | 添加无序或有序列表 |
 | `add_table(data, **kwargs)` | 添加表格 |
