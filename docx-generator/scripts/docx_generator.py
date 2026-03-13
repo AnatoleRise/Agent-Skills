@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DOCX文档生成器 v2.2 (优化版 + 内置依赖 + 标题居中)
+DOCX文档生成器 v2.3 (优化版 + 内置依赖 + 标题居中)
 用于创建包含页脚的Microsoft Word文档
 
 优化内容：
@@ -13,7 +13,7 @@ DOCX文档生成器 v2.2 (优化版 + 内置依赖 + 标题居中)
 6. 更好的类型提示
 7. 支持链式调用
 8. 内置依赖管理，无需每次安装
-9. 标题自动居中对齐
+9. 标题自动居中对齐，颜色为默认黑色
 """
 
 import os
@@ -101,13 +101,13 @@ STYLE_PRESETS = {
     'title': {
         'size': 18,
         'bold': True,
-        'color': '000000',
+        'color': '000000',  # 黑色
         'alignment': 'center'
     },
     'subtitle': {
         'size': 14,
         'bold': True,
-        'color': '333333',
+        'color': '000000',  # 黑色
         'alignment': 'left'
     },
     'normal': {
@@ -194,7 +194,7 @@ class DocxGenerator:
 
     def add_title(self, title: str, level: int = 1):
         """
-        添加标题（默认居中对齐）
+        添加标题（默认居中对齐，黑色）
 
         Args:
             title: 标题文本
@@ -211,6 +211,9 @@ class DocxGenerator:
         heading = self.doc.add_heading(title, level=level)
         # 设置标题居中对齐
         heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        # 设置标题颜色为黑色（覆盖 Word 默认的蓝色样式）
+        for run in heading.runs:
+            run.font.color.rgb = RGBColor(0, 0, 0)
         return self
 
     def add_paragraph(
