@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DOCX文档生成器 v2.1 (优化版 + 内置依赖)
+DOCX文档生成器 v2.2 (优化版 + 内置依赖 + 标题居中)
 用于创建包含页脚的Microsoft Word文档
 
 优化内容：
@@ -13,6 +13,7 @@ DOCX文档生成器 v2.1 (优化版 + 内置依赖)
 6. 更好的类型提示
 7. 支持链式调用
 8. 内置依赖管理，无需每次安装
+9. 标题自动居中对齐
 """
 
 import os
@@ -193,7 +194,7 @@ class DocxGenerator:
 
     def add_title(self, title: str, level: int = 1):
         """
-        添加标题
+        添加标题（默认居中对齐）
 
         Args:
             title: 标题文本
@@ -207,7 +208,9 @@ class DocxGenerator:
         if not 1 <= level <= 9:
             raise ValidationError("标题级别必须在1-9之间")
 
-        self.doc.add_heading(title, level=level)
+        heading = self.doc.add_heading(title, level=level)
+        # 设置标题居中对齐
+        heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         return self
 
     def add_paragraph(
