@@ -84,6 +84,8 @@ prd-reviewer-agent/
 
 ## 快速部署
 
+> 将以下对应指令直接复制发送给你的 AI 工具（如 TRAE、Cursor、Codex、Claude Code），让它替你完成安装。
+
 ### Claude Code
 
 ```bash
