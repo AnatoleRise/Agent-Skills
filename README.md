@@ -9,8 +9,7 @@
 ├── interaction-walkthrough/      # 交互走查技能
 ├── moyu-skill/                   # 文本游戏技能
 ├── requirement-review/           # PRD 需求评审技能
-├── 收藏skills/                   # 收藏和参考技能
-└── bailian-UnifiedSearch/        # 本地私有技能目录，已通过 .gitignore 排除
+└── 收藏skills/                   # 收藏和参考技能
 ```
 
 ## 当前技能
@@ -55,10 +54,4 @@
 
 ## Git 忽略
 
-`.gitignore` 已排除 Python 缓存、虚拟环境、构建产物、测试产物和本地私有技能目录：
-
-```gitignore
-bailian-UnifiedSearch/
-```
-
-因此 `bailian-UnifiedSearch/` 只保留在本机，不会上传到 GitHub。
+`.gitignore` 已排除 Python 缓存、虚拟环境、构建产物、测试产物和本地私有配置；本地规则文件不进入 GitHub。
