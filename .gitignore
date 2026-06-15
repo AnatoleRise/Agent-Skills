@@ -33,3 +33,6 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+
+# Local skills not published
+bailian-UnifiedSearch/
